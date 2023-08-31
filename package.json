@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "@fancyapps/ui": "^5.0.22",
+    "@splidejs/splide": "^4.1.4",
+    "bootstrap": "^5.3.1",
+    "imagesloaded": "^5.0.0",
+    "jquery": "^3.7.1",
+    "sass": "^1.66.1",
+    "swiper": "^10.2.0",
+    "vanilla-tilt": "^1.8.1",
+    "velocity-animate": "^1.5.2",
+    "waypoints": "^4.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.22.10",
+    "@babel/core": "^7.22.11"
+  }
+}
