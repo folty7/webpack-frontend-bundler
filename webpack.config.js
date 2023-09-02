@@ -1,7 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -10,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: 'js/[name].js',
         clean: true,
         assetModuleFilename: "[name][ext]",
     },
@@ -39,27 +40,38 @@ module.exports = {
                 type: "asset",
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/, // Match .scss files
+                include: path.resolve(__dirname, 'src/styles'), // Only process files in src/styles
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+            },
+            {
+                test: /\.css$/, // Match .css files
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'style-loader',
+                        loader: MiniCssExtractPlugin.loader,
                     },
                     {
                         loader: 'css-loader',
                         options: {
                             importLoaders: 1,
-                        }
+                        },
                     },
                     {
-                        loader: 'postcss-loader'
-                    }
-                ]
+                        loader: 'postcss-loader',
+                    },
+                ],
             },
         ],
     },
     optimization: {
         minimizer: [
+            new CssMinimizerPlugin(),
             new ImageMinimizerPlugin({
                 minimizer: {
                     implementation: ImageMinimizerPlugin.imageminMinify,
@@ -104,6 +116,9 @@ module.exports = {
             title: "Webpack App",
             filename: "index.html",
             template: "src/template.html"
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'styles/main.css',
         }),
     ],
 }
