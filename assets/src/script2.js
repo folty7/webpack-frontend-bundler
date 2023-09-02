@@ -1,1 +1,0 @@
-const nazov2 = 'nazov2';
