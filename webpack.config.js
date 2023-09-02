@@ -17,7 +17,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test:/\.scss$/,
+                test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
@@ -38,6 +38,24 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 type: "asset",
             },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    }
+                ]
+            },
         ],
     },
     optimization: {
@@ -49,9 +67,9 @@ module.exports = {
                         // Lossless optimization with custom option
                         // Feel free to experiment with options for better result for you
                         plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
+                            ["gifsicle", {interlaced: true}],
+                            ["jpegtran", {progressive: true}],
+                            ["optipng", {optimizationLevel: 5}],
                             // Svgo configuration here https://github.com/svg/svgo#configuration
                             [
                                 "svgo",
@@ -65,7 +83,7 @@ module.exports = {
                                                     addAttributesToSVGElement: {
                                                         params: {
                                                             attributes: [
-                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                                {xmlns: "http://www.w3.org/2000/svg"},
                                                             ],
                                                         },
                                                     },
