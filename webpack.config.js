@@ -7,10 +7,10 @@ module.exports = {
     mode: 'production',
     devtool: false,
     entry: {
-        bundle: path.resolve(__dirname, 'src/index.js'),
+        bundle: path.resolve(__dirname, 'assets/src/js/index.js'), // Update the entry path
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'assets/dist'), // Update the output path
         filename: 'js/[name].js',
         clean: true,
         assetModuleFilename: "[name][ext]",
@@ -33,7 +33,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: path.resolve(__dirname, 'src/styles'),
+                include: path.resolve(__dirname, 'assets/src/styles'), // Update the SCSS path
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -65,11 +65,11 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: "Webpack App",
-            filename: "index.html",
-            template: "src/template.html",
+            filename: "index.html", // Update the HTML output path
+            template: "assets/src/template.html", // Update the HTML template path
         }),
         new MiniCssExtractPlugin({
-            filename: 'styles/main.css',
+            filename: 'styles/main.css', // Update the CSS output path
         }),
     ],
 };
