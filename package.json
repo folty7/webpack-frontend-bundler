@@ -4,7 +4,8 @@
   "description": "Our own FE core",
   "main": "main.js",
   "scripts": {
-    "build": "webpack && babel assets/src/js --out-dir assets/dist/js"
+    "build": "webpack && babel assets/src/js --out-dir assets/dist/js",
+    "lint": "eslint ./assets/src/js/**/*.js"
   },
   "keywords": [],
   "author": "Andrej Folta",
