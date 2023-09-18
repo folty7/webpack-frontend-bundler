@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -92,6 +93,14 @@ module.exports = {
         ],
     },
     plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'assets/src/img'), // Source directory
+                    to: path.resolve(__dirname, 'assets/dist/img'),  // Destination directory
+                },
+            ],
+        }),
         new HtmlWebpackPlugin({
             title: "Webpack App",
             filename: "index.html", // Update the HTML output path
