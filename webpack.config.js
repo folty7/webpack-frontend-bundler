@@ -2,16 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production',
     devtool: false,
     entry: {
-        bundle: path.resolve(__dirname, 'assets/src/js/index.js'), // Update the entry path
+        bundle: path.resolve(__dirname, 'assets/src/js'),
     },
     output: {
         path: path.resolve(__dirname, 'assets/dist'), // Update the output path
-        filename: 'js/[name].js',
+        filename: 'js/[name].min.js',
         clean: true,
         assetModuleFilename: "[name][ext]",
     },
@@ -76,6 +77,20 @@ module.exports = {
             new CssMinimizerPlugin(),
         ],
     },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    format: {
+                        comments: false, // Remove comments
+                    },
+                },
+                extractComments: false, // Remove comments in .LICENSE.txt files
+                include: '/assets/dist/js/bundle.min.js',
+            }),
+        ],
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: "Webpack App",
@@ -83,7 +98,7 @@ module.exports = {
             template: "assets/src/template.html", // Update the HTML template path
         }),
         new MiniCssExtractPlugin({
-            filename: 'styles/main.css', // Update the CSS output path
+            filename: 'styles/main.min.css', // Update the CSS output path
         }),
     ],
 };
