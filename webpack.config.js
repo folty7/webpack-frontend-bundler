@@ -35,7 +35,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: path.resolve(__dirname, 'assets/src/styles'), // Update the SCSS path
+                include: path.resolve(__dirname, 'assets/src/scss'), // Update the SCSS path
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -107,7 +107,7 @@ module.exports = {
             template: "assets/src/template.html", // Update the HTML template path
         }),
         new MiniCssExtractPlugin({
-            filename: 'styles/main.min.css', // Update the CSS output path
+            filename: 'css/main.min.css', // Update the CSS output path
         }),
     ],
 };

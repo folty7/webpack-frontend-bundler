@@ -9,8 +9,8 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
     <content url="file://$MODULE_DIR$/assets/dist" />
+    <content url="file://$MODULE_DIR$/assets/dist/css" />
     <content url="file://$MODULE_DIR$/assets/dist/js" />
-    <content url="file://$MODULE_DIR$/assets/dist/styles" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
