@@ -13,7 +13,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'assets/dist'), // Update the output path
-        filename: 'js/[name].min.js',
+        filename: 'js/main.min.js',
         clean: true,
         assetModuleFilename: "[name][ext]",
     },
@@ -83,12 +83,15 @@ module.exports = {
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
-                    format: {
+                    compress: {
+                        drop_console: true, // Remove console.* statements
+                    },
+                    output: {
                         comments: false, // Remove comments
                     },
                 },
-                extractComments: false, // Remove comments in .LICENSE.txt files
-                include: '/assets/dist/js/bundle.min.js',
+                // include: '/assets/dist/js/bundle.min.js',
+                // assets/dist/js/bundle.min.js -o assets/dist/js/bundle.min.js
             }),
         ],
     },

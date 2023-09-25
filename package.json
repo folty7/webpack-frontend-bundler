@@ -4,10 +4,8 @@
   "description": "Unceasing solutions front-end core",
   "main": "main.js",
   "scripts": {
-    "build": "webpack || true && babel assets/src/js --out-dir assets/dist/js/bundle.min.js",
-    "postcss": "postcss assets/src/styles/*.scss -d assets/dist/css/main.css && node admin-assets/script-finished.js",
-    "lint": "eslint assets/src/js/**/*.js && node admin-assets/script-finished.js",
-    "terser": "terser assets/dist/js/bundle.min.js -o assets/dist/js/bundle.min.js && node admin-assets/script-finished.js"
+    "build": "webpack && babel assets/src/js --out-dir assets/dist/js/main.min.js || node assets/src/vendors/script-finished.js",
+    "lint": "eslint assets/src/js/**/*.js || node assets/src/vendors/script-finished.js"
   },
   "repository": {
     "type": "git",

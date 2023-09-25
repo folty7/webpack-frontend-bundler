@@ -12,8 +12,8 @@ printMessage(["SCRIPT FINISHED"], {
     rightBottomSymbol: '┐', // Symbol for right bottom corner
     marginTop: 1, // Margin before border is begins
     marginBottom: 1, // Margin after border is end
-    paddingTop: 1, // Padding top after border begins
-    paddingBottom: 1, // Padding bottom before border ends
+    paddingTop: 0, // Padding top after border begins
+    paddingBottom: 0, // Padding bottom before border ends
     printFn: function (message) {
         // Custom function that accepts generated message as argument and print it
         process.stdout.write(message);
