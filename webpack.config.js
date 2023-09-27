@@ -30,10 +30,6 @@ module.exports = {
                 },
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/i,
-                type: "asset",
-            },
-            {
                 test: /\.scss$/,
                 include: path.resolve(__dirname, 'assets/src/scss'), // Update the SCSS path
                 use: [
@@ -71,16 +67,52 @@ module.exports = {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader", "postcss-loader"]
             },
-        ],
-    },
-    optimization: {
-        minimizer: [
-            new CssMinimizerPlugin(),
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                type: "asset",
+            },
         ],
     },
     optimization: {
         minimize: true,
         minimizer: [
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        // Lossless optimization with custom option
+                        // Feel free to experiment with options for better result for you
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            // Svgo configuration here https://github.com/svg/svgo#configuration
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                    addAttributesToSVGElement: {
+                                                        params: {
+                                                            attributes: [
+                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                            ],
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                },
+            }),
             new TerserPlugin({
                 terserOptions: {
                     compress: {
@@ -93,6 +125,7 @@ module.exports = {
                 // include: '/assets/dist/js/bundle.min.js',
                 // assets/dist/js/bundle.min.js -o assets/dist/js/bundle.min.js
             }),
+            new CssMinimizerPlugin(),
         ],
     },
     plugins: [

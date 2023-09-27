@@ -1,6 +1,23 @@
 $primary-color: #2fa8cc;
 $secondary-color: #f4f4f4;
 $box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+@import '../vendors/atropos.scss';
+
+.my-atropos {
+  width: 631px;
+  height: 383px;
+}
+
+.atropos-inner {
+  overflow: unset!important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    position: absolute;
+  }
+}
 
 * {
   box-sizing: border-box;
