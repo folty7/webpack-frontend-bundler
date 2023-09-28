@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
@@ -70,7 +70,37 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                type: "asset",
+                type: 'asset', // Use 'asset' type
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg|webp)$/i,
+                include: path.resolve(__dirname, 'assets/src/img'),
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            mozjpeg: {
+                                progressive: true,
+                            },
+                            // optipng.enabled: false will disable optipng
+                            optipng: {
+                                enabled: true,
+                            },
+                            pngquant: {
+                                quality: [0.65, 0.90],
+                                speed: 4
+                            },
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            // the webp option will enable WEBP
+                            webp: {
+                                quality: 75
+                            }
+                        }
+                    },
+                ],
             },
         ],
     },
@@ -78,40 +108,14 @@ module.exports = {
         minimize: true,
         minimizer: [
             new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminMinify,
-                    options: {
-                        // Lossless optimization with custom option
-                        // Feel free to experiment with options for better result for you
-                        plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
-                            // Svgo configuration here https://github.com/svg/svgo#configuration
-                            [
-                                "svgo",
-                                {
-                                    plugins: [
-                                        {
-                                            name: "preset-default",
-                                            params: {
-                                                overrides: {
-                                                    removeViewBox: false,
-                                                    addAttributesToSVGElement: {
-                                                        params: {
-                                                            attributes: [
-                                                                { xmlns: "http://www.w3.org/2000/svg" },
-                                                            ],
-                                                        },
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    ],
-                                },
-                            ],
-                        ],
-                    },
+                minimizerOptions: {
+                    // Specify the plugins for optimization
+                    plugins: [
+                        ['gifsicle', { interlaced: true }],
+                        ['jpegtran', { progressive: true }],
+                        ['optipng', { optimizationLevel: 5 }],
+                        ['svgo', {}],
+                    ],
                 },
             }),
             new TerserPlugin({
@@ -130,14 +134,14 @@ module.exports = {
         ],
     },
     plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'assets/src/img'), // Source directory
-                    to: path.resolve(__dirname, 'assets/dist/img'),  // Destination directory
-                },
-            ],
-        }),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         {
+        //             from: path.resolve(__dirname, 'assets/src/img'), // Source directory
+        //             to: path.resolve(__dirname, 'assets/dist/img'),  // Destination directory
+        //         },
+        //     ],
+        // }),
         new HtmlWebpackPlugin({
             title: "Webpack App",
             filename: "index.html", // Update the HTML output path
