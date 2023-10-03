@@ -102,22 +102,32 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(gif|png|jpe?g|svg|webp)$/i,
+                include: path.resolve(__dirname, 'assets/src/img'),
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-minimizer-webpack-loader',
+                        options: {
+                            severityError: "warning", // Set error severity to warning if needed
+                            minimizerOptions: {
+                                plugins: [
+                                    ['gifsicle', { interlaced: true }],
+                                    ['jpegtran', { progressive: true }],
+                                    ['optipng', { optimizationLevel: 5 }],
+                                    ['svgo', {}],
+                                ],
+                            },
+                        },
+                    },
+                ],
+            },
         ],
     },
     optimization: {
         minimize: true,
         minimizer: [
-            new ImageMinimizerPlugin({
-                minimizerOptions: {
-                    // Specify the plugins for optimization
-                    plugins: [
-                        ['gifsicle', { interlaced: true }],
-                        ['jpegtran', { progressive: true }],
-                        ['optipng', { optimizationLevel: 5 }],
-                        ['svgo', {}],
-                    ],
-                },
-            }),
             new TerserPlugin({
                 terserOptions: {
                     compress: {
