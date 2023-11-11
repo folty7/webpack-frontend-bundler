@@ -13,7 +13,7 @@ module.exports = {
         bundle: path.resolve(__dirname, 'assets/src/js'),
     },
     output: {
-        path: path.resolve(__dirname, 'assets/dist'), // Update the output path
+        path: path.resolve(__dirname, 'assets/dist'),
         filename: 'js/main.min.js',
         clean: true,
         assetModuleFilename: "[name][ext]",
@@ -70,7 +70,10 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                type: 'asset', // Use 'asset' type
+                type: 'asset/resource', // Use 'asset/resource' type
+                generator: {
+                    filename: 'img/[name][ext][query]', // Output to img/ directory
+                },
             },
             {
                 test: /\.(gif|png|jpe?g|svg|webp)$/i,
@@ -102,27 +105,6 @@ module.exports = {
                     },
                 ],
             },
-            {
-                test: /\.(gif|png|jpe?g|svg|webp)$/i,
-                include: path.resolve(__dirname, 'assets/src/img'),
-                use: [
-                    'file-loader',
-                    {
-                        loader: 'image-minimizer-webpack-loader',
-                        options: {
-                            severityError: "warning", // Set error severity to warning if needed
-                            minimizerOptions: {
-                                plugins: [
-                                    ['gifsicle', { interlaced: true }],
-                                    ['jpegtran', { progressive: true }],
-                                    ['optipng', { optimizationLevel: 5 }],
-                                    ['svgo', {}],
-                                ],
-                            },
-                        },
-                    },
-                ],
-            },
         ],
     },
     optimization: {
@@ -137,10 +119,45 @@ module.exports = {
                         comments: false, // Remove comments
                     },
                 },
-                // include: '/assets/dist/js/bundle.min.js',
-                // assets/dist/js/bundle.min.js -o assets/dist/js/bundle.min.js
             }),
             new CssMinimizerPlugin(),
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        // Lossless optimization with custom option
+                        // Feel free to experiment with options for better result for you
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            // Svgo configuration here https://github.com/svg/svgo#configuration
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                    addAttributesToSVGElement: {
+                                                        params: {
+                                                            attributes: [
+                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                            ],
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                },
+            }),
         ],
     },
     plugins: [
