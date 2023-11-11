@@ -70,7 +70,7 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                type: 'asset/resource', // Use 'asset/resource' type
+                type: 'asset/resource',
                 generator: {
                     filename: 'img/[name][ext][query]', // Output to img/ directory
                 },
@@ -79,7 +79,6 @@ module.exports = {
                 test: /\.(gif|png|jpe?g|svg|webp)$/i,
                 include: path.resolve(__dirname, 'assets/src/img'),
                 use: [
-                    'file-loader',
                     {
                         loader: 'image-webpack-loader',
                         options: {
@@ -128,9 +127,9 @@ module.exports = {
                         // Lossless optimization with custom option
                         // Feel free to experiment with options for better result for you
                         plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
+                            ["gifsicle", {interlaced: true}],
+                            ["jpegtran", {progressive: true}],
+                            ["optipng", {optimizationLevel: 5}],
                             // Svgo configuration here https://github.com/svg/svgo#configuration
                             [
                                 "svgo",
@@ -144,7 +143,7 @@ module.exports = {
                                                     addAttributesToSVGElement: {
                                                         params: {
                                                             attributes: [
-                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                                {xmlns: "http://www.w3.org/2000/svg"},
                                                             ],
                                                         },
                                                     },
