@@ -1,4 +1,4 @@
-# Unceasing Solutions Front-End Core
+# WebPack Front-End Core
 
 Front-end core setup pre vývoj moderných webových aplikácií s podporou pre SCSS, JavaScript modulov a optimalizáciu assets.
 
@@ -95,3 +95,4 @@ Andrej Folta
 ## Licencia
 
 Proprietary - Unceasing Solutions
+
